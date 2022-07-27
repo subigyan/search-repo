@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 // Rate Limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 min
-  max: 300, // limit each IP to 150 requests per 15 min
+  max: 300, // limit each IP to 300 requests per 15 min
 });
 
 app.use(limiter);
