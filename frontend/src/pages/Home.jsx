@@ -129,7 +129,7 @@ function Home() {
             {repos.items.map((repo) => (
               <Card key={repo.id} repo={repo} />
             ))}
-            <div className="flex justify-end">
+            <div className="flex justify-end w-full">
               <Stack spacing={2} clas>
                 <Pagination
                   variant="outlined"
