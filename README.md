@@ -1,4 +1,4 @@
-# Search Repositoy
+# Search Repository
 
 An app that fetches github repos with a node proxy server.
 
