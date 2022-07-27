@@ -19,6 +19,9 @@ function Home() {
   const [perPage, setPerPage] = React.useState(10);
   const [page, setPage] = useState(1);
 
+  //incase the server is not hosted and local server is used
+  const LocalAPI = "http://localhost:5000/api";
+
   useEffect(() => {
     async function fetchRepo() {
       await fetchData();
@@ -31,7 +34,7 @@ function Home() {
       setLoading(true);
       console.log("fetch, ", page);
       const response = await axios.get(
-        `${process.env.REACT_APP_API_URL}/search`,
+        `${process.env.REACT_APP_API_URL || LocalAPI}/search`,
         {
           params: {
             name: search.trim(),

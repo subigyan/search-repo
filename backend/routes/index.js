@@ -11,8 +11,8 @@ router.get("/", (req, res) => {
   res.send("Hello Worldddd");
 });
 
-router.get("/search", cache("10 minutes"), searchRepo);
-router.get("/details", cache("10 minutes"), getRepoDetails);
-router.get("/test", cache("10 minutes"), test);
+router.get("/search", cache("1 minutes"), searchRepo);
+router.get("/details", cache("1 minutes"), getRepoDetails);
+router.get("/test", cache("1 minutes"), test);
 
 module.exports = router;

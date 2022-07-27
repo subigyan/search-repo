@@ -24,14 +24,20 @@ const Details = () => {
 
   const [markdownURL, setMarkdownURL] = useState("");
 
+  //incase the server is not hosted and local server is used
+  const LocalAPI = "http://localhost:5000/api";
+
   useEffect(() => {
     async function fetchRepo() {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}/details`, {
-        params: {
-          owner: owner,
-          repo: repo,
-        },
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL || LocalAPI}/details`,
+        {
+          params: {
+            owner: owner,
+            repo: repo,
+          },
+        }
+      );
       console.log(res?.data);
 
       setRepoData(res?.data.repoData);
