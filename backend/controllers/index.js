@@ -8,8 +8,39 @@ const test = async (req, res) => {
   });
 };
 
-const searchRepo = async (req, res) => {};
+const searchRepo = async (req, res) => {
+  try {
+    console.log(req.query);
+    const { name, sort, per_page, page } = req.query;
+    const url = `${API_URL}/search/repositories?q=${name}&sort=${sort}&per_page=${per_page}&page=${page}`;
+    const response = await axios.get(url);
+    res.status(200).json(response.data);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
 
-const getRepoDetails = async (req, res) => {};
+const getRepoDetails = async (req, res) => {
+  try {
+    const { owner, repo } = req.query;
+    const repoURL = `${API_URL}/repos/${owner}/${repo}`;
+    console.log(repoURL);
+    let repoData = null;
+    let ownerData = null;
+    const repoResponse = await axios.get(repoURL);
+    repoData = repoResponse.data;
+    if (repoData?.owner?.url) {
+      const ownerInfoURL = `${repoData.owner.url}`;
+      const ownerInfoResponse = await axios.get(ownerInfoURL);
+      ownerData = ownerInfoResponse.data;
+    }
+    res.status(200).json({
+      repoData,
+      ownerData,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
 
 module.exports = { searchRepo, getRepoDetails, test };

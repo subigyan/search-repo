@@ -5,6 +5,15 @@ const rateLimit = require("express-rate-limit");
 
 const PORT = process.env.PORT || 5000;
 
+// Rate Limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 150, // limit each IP to 150 requests per 15 min
+});
+
+app.use(limiter);
+app.set("trust proxy", 1);
+
 //enable cors
 app.use(cors());
 
