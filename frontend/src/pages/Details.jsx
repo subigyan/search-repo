@@ -5,8 +5,8 @@ import Search from "../components/Search";
 import ReactMarkdown from "react-markdown";
 import { useSearchParams } from "react-router-dom";
 import axios from "axios";
-
 import moment from "moment";
+import NotFound from "../components/NotFound";
 
 const Details = () => {
   const markdownn = `
@@ -25,7 +25,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   const [repoData, setRepoData] = useState({});
   const [userData, setUserData] = useState({});
-  const [content, setContent] = useState([]);
+
   const [markdownURL, setMarkdownURL] = useState("");
 
   useEffect(() => {
@@ -40,12 +40,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
       setRepoData(res?.data.repoData);
       setUserData(res?.data.ownerData);
-      setContent(res?.data.content);
-      res?.data?.content.forEach((element) => {
-        if (element.name === "README.md") {
-          setMarkdownURL(element.download_url);
-        }
-      });
+
+      if (res?.data?.content) {
+        res?.data?.content.forEach((element) => {
+          if (element.name === "README.md") {
+            setMarkdownURL(element.download_url);
+          }
+        });
+      }
     }
     fetchRepo();
   }, []);
@@ -61,17 +63,21 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   console.log("url", markdownURL);
   const lastUpdated = moment(repoData?.updated_at).format("YYYY-MM-DD");
 
+  if (!repoData || !userData) {
+    return <NotFound />;
+  }
+
   return (
     <div className="flex flex-col  rounded-lg sm:px-10 sm:py-8 text-gray-800 text-lg">
       <div className="flex items-center justify-between w-full flex-wrap ">
         <div className="flex flex-col text-lg">
           <div className="text-3xl font-medium  h-fit flex items-center gap-2 hover:underline">
             <GoRepo className="text-2xl" />
-            <a href={repoData?.html_url || "#"}>{repoData.name}</a>
+            <a href={repoData?.html_url || "#"}>{repoData?.name}</a>
           </div>
           <div className="h-fit flex items-center gap-2 hover:underline">
             <a href={repoData?.owner?.html_url || "#"}>
-              Author: {userData.name}
+              Author: {userData?.name}
             </a>
           </div>
         </div>
