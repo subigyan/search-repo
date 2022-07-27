@@ -1,6 +1,6 @@
 # Search Repositoy
 
-An app to fetches github repos with a node proxy server.
+An app that fetches github repos with a node proxy server.
 
 ## Install Api/Backedn Dependencies
 
