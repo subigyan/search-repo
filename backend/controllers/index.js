@@ -10,9 +10,11 @@ const test = async (req, res) => {
 
 const searchRepo = async (req, res) => {
   try {
-    console.log(req.query);
     const { name, sort, per_page, page } = req.query;
-    const url = `${API_URL}/search/repositories?q=${name}&sort=${sort}&per_page=${per_page}&page=${page}`;
+    const url = `${API_URL}/search/repositories?q=${name || undefined}&sort=${
+      sort || undefined
+    }&page=${page || undefined}&per_page=${per_page || undefined}`;
+    console.log(url);
     const response = await axios.get(url);
     res.status(200).json(response.data);
   } catch (error) {
@@ -27,6 +29,7 @@ const getRepoDetails = async (req, res) => {
     console.log(repoURL);
     let repoData = null;
     let ownerData = null;
+    let content = null;
     const repoResponse = await axios.get(repoURL);
     repoData = repoResponse.data;
     if (repoData?.owner?.url) {
@@ -34,9 +37,17 @@ const getRepoDetails = async (req, res) => {
       const ownerInfoResponse = await axios.get(ownerInfoURL);
       ownerData = ownerInfoResponse.data;
     }
+    if (repoData?.contents_url) {
+      const contentResponse = await axios.get(
+        `${API_URL}/repos/${owner}/${repo}/contents`
+      );
+      content = contentResponse.data;
+    }
+
     res.status(200).json({
       repoData,
       ownerData,
+      content,
     });
   } catch (error) {
     res.json({ error });
