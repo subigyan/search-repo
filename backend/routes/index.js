@@ -12,7 +12,9 @@ router.get("/", (req, res) => {
 });
 
 router.get("/search", cache("1 minutes"), searchRepo);
+
 router.get("/details", cache("1 minutes"), getRepoDetails);
+
 router.get("/test", cache("1 minutes"), test);
 
 module.exports = router;
