@@ -9,10 +9,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import NoResult from "../components/NoResult";
 
 function Home() {
   const [search, setSearch] = useState("");
-  const [repos, setRepos] = useState([]);
+  const [repos, setRepos] = useState({});
   const [loading, setLoading] = useState(false);
   const [sort, setSort] = React.useState("");
   const [perPage, setPerPage] = React.useState(10);
@@ -76,15 +77,15 @@ function Home() {
         <Search search={search} setSearch={setSearch} loading={loading} />
       </form>
 
-      <div className="flex flex-col my-6 gap-4">
-        {repos.items ? (
+      <div className="flex flex-col my-6 gap-4 justify-center items-center">
+        {repos.items && repos.total_count > 0 ? (
           <>
-            <div className="lg:w-[1000px]  w-[80vw] flex justify-between items-center px-1">
+            <div className="lg:w-[1000px]  w-[80vw] flex justify-between items-center px-1 flex-wrap ">
               <p className="text-sm text-gray-600 font-medium">
                 <span className="font-bold text-base">{repos.total_count}</span>{" "}
                 repositories
               </p>
-              <div className=" flex items-center gap-4">
+              <div className=" flex sm:items-center gap-4 sm:w-auto w-full justify-end ">
                 <FormControl variant="standard" className="w-14 ">
                   <InputLabel id="demo-simple-select-standard-label">
                     Per Page
@@ -138,7 +139,9 @@ function Home() {
               </Stack>
             </div>
           </>
-        ) : null}
+        ) : (
+          repos.total_count === 0 && <NoResult />
+        )}
       </div>
     </div>
   );

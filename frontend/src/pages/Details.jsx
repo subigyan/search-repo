@@ -7,15 +7,11 @@ import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import NotFound from "../components/NotFound";
+import { IoMdArrowBack } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Details = () => {
-  const markdownn = `
-  # Getting Started with Create React App
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-  `;
+  const navigate = useNavigate();
 
   const [markdown, setMarkdown] = useState();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -30,7 +26,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
   useEffect(() => {
     async function fetchRepo() {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}details`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/details`, {
         params: {
           owner: owner,
           repo: repo,
@@ -68,7 +64,15 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   }
 
   return (
-    <div className="flex flex-col  rounded-lg sm:px-10 sm:py-8 text-gray-800 text-lg">
+    <div className="flex flex-col  rounded-lg sm:px-14 sm:py-12 p-4 text-gray-800 text-lg">
+      <h1 className="text-sm absolute top-2 md:left-4 shadow-sm shadow-indigo-600 rounded-full flex p-1 items-center cursor-pointer md:right-auto right-4">
+        <IoMdArrowBack
+          className="text-3xl "
+          onClick={() => {
+            navigate("/");
+          }}
+        />
+      </h1>
       <div className="flex items-center justify-between w-full flex-wrap ">
         <div className="flex flex-col text-lg">
           <div className="text-3xl font-medium  h-fit flex items-center gap-2 hover:underline">
